@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.bt_ChangeTeam = new System.Windows.Forms.Button();
+            this.bt_SettingTeam = new System.Windows.Forms.Button();
+            this.tb_Team = new System.Windows.Forms.TextBox();
             this.bt_AniDelete = new System.Windows.Forms.Button();
             this.bt_AniInput = new System.Windows.Forms.Button();
             this.tb_AniString = new System.Windows.Forms.TextBox();
@@ -41,15 +44,18 @@
             this.list_TweetUser = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.list_AniString = new System.Windows.Forms.ListBox();
-            this.tb_Team = new System.Windows.Forms.TextBox();
-            this.bt_SettingTeam = new System.Windows.Forms.Button();
-            this.bt_ChangeTeam = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.bt_ChangeTeam);
             this.groupBox1.Controls.Add(this.bt_SettingTeam);
             this.groupBox1.Controls.Add(this.tb_Team);
@@ -65,14 +71,41 @@
             this.groupBox1.Controls.Add(this.list_TweetUser);
             this.groupBox1.Location = new System.Drawing.Point(348, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(250, 391);
+            this.groupBox1.Size = new System.Drawing.Size(250, 446);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Setting";
             // 
+            // bt_ChangeTeam
+            // 
+            this.bt_ChangeTeam.Location = new System.Drawing.Point(129, 381);
+            this.bt_ChangeTeam.Name = "bt_ChangeTeam";
+            this.bt_ChangeTeam.Size = new System.Drawing.Size(114, 23);
+            this.bt_ChangeTeam.TabIndex = 12;
+            this.bt_ChangeTeam.Text = "Change Team";
+            this.bt_ChangeTeam.UseVisualStyleBackColor = true;
+            this.bt_ChangeTeam.Click += new System.EventHandler(this.bt_ChangeTeam_Click);
+            // 
+            // bt_SettingTeam
+            // 
+            this.bt_SettingTeam.Location = new System.Drawing.Point(6, 381);
+            this.bt_SettingTeam.Name = "bt_SettingTeam";
+            this.bt_SettingTeam.Size = new System.Drawing.Size(116, 23);
+            this.bt_SettingTeam.TabIndex = 11;
+            this.bt_SettingTeam.Text = "Setting Team";
+            this.bt_SettingTeam.UseVisualStyleBackColor = true;
+            this.bt_SettingTeam.Click += new System.EventHandler(this.bt_SettingTeam_Click);
+            // 
+            // tb_Team
+            // 
+            this.tb_Team.Location = new System.Drawing.Point(6, 353);
+            this.tb_Team.Name = "tb_Team";
+            this.tb_Team.Size = new System.Drawing.Size(237, 21);
+            this.tb_Team.TabIndex = 10;
+            // 
             // bt_AniDelete
             // 
-            this.bt_AniDelete.Location = new System.Drawing.Point(130, 273);
+            this.bt_AniDelete.Location = new System.Drawing.Point(131, 325);
             this.bt_AniDelete.Name = "bt_AniDelete";
             this.bt_AniDelete.Size = new System.Drawing.Size(114, 23);
             this.bt_AniDelete.TabIndex = 9;
@@ -82,7 +115,7 @@
             // 
             // bt_AniInput
             // 
-            this.bt_AniInput.Location = new System.Drawing.Point(7, 272);
+            this.bt_AniInput.Location = new System.Drawing.Point(8, 324);
             this.bt_AniInput.Name = "bt_AniInput";
             this.bt_AniInput.Size = new System.Drawing.Size(116, 23);
             this.bt_AniInput.TabIndex = 8;
@@ -92,7 +125,7 @@
             // 
             // tb_AniString
             // 
-            this.tb_AniString.Location = new System.Drawing.Point(7, 245);
+            this.tb_AniString.Location = new System.Drawing.Point(8, 258);
             this.tb_AniString.Name = "tb_AniString";
             this.tb_AniString.Size = new System.Drawing.Size(237, 21);
             this.tb_AniString.TabIndex = 7;
@@ -109,7 +142,7 @@
             // 
             // bt_Refresh
             // 
-            this.bt_Refresh.Location = new System.Drawing.Point(171, 361);
+            this.bt_Refresh.Location = new System.Drawing.Point(169, 409);
             this.bt_Refresh.Name = "bt_Refresh";
             this.bt_Refresh.Size = new System.Drawing.Size(75, 23);
             this.bt_Refresh.TabIndex = 5;
@@ -118,7 +151,7 @@
             // 
             // bt_Stop
             // 
-            this.bt_Stop.Location = new System.Drawing.Point(89, 362);
+            this.bt_Stop.Location = new System.Drawing.Point(87, 410);
             this.bt_Stop.Name = "bt_Stop";
             this.bt_Stop.Size = new System.Drawing.Size(75, 23);
             this.bt_Stop.TabIndex = 4;
@@ -128,7 +161,7 @@
             // 
             // bt_Start
             // 
-            this.bt_Start.Location = new System.Drawing.Point(7, 362);
+            this.bt_Start.Location = new System.Drawing.Point(6, 409);
             this.bt_Start.Name = "bt_Start";
             this.bt_Start.Size = new System.Drawing.Size(75, 23);
             this.bt_Start.TabIndex = 3;
@@ -167,7 +200,7 @@
             this.groupBox2.Controls.Add(this.list_AniString);
             this.groupBox2.Location = new System.Drawing.Point(13, 13);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(329, 390);
+            this.groupBox2.Size = new System.Drawing.Size(329, 445);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Serch List";
@@ -178,41 +211,39 @@
             this.list_AniString.ItemHeight = 12;
             this.list_AniString.Location = new System.Drawing.Point(7, 20);
             this.list_AniString.Name = "list_AniString";
-            this.list_AniString.Size = new System.Drawing.Size(316, 364);
+            this.list_AniString.Size = new System.Drawing.Size(316, 412);
             this.list_AniString.TabIndex = 0;
             // 
-            // tb_Team
+            // label1
             // 
-            this.tb_Team.Location = new System.Drawing.Point(7, 302);
-            this.tb_Team.Name = "tb_Team";
-            this.tb_Team.Size = new System.Drawing.Size(237, 21);
-            this.tb_Team.TabIndex = 10;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 240);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 12);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Name";
             // 
-            // bt_SettingTeam
+            // textBox1
             // 
-            this.bt_SettingTeam.Location = new System.Drawing.Point(7, 330);
-            this.bt_SettingTeam.Name = "bt_SettingTeam";
-            this.bt_SettingTeam.Size = new System.Drawing.Size(116, 23);
-            this.bt_SettingTeam.TabIndex = 11;
-            this.bt_SettingTeam.Text = "Setting Team";
-            this.bt_SettingTeam.UseVisualStyleBackColor = true;
-            this.bt_SettingTeam.Click += new System.EventHandler(this.bt_SettingTeam_Click);
+            this.textBox1.Location = new System.Drawing.Point(129, 298);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(121, 21);
+            this.textBox1.TabIndex = 14;
             // 
-            // bt_ChangeTeam
+            // label2
             // 
-            this.bt_ChangeTeam.Location = new System.Drawing.Point(130, 330);
-            this.bt_ChangeTeam.Name = "bt_ChangeTeam";
-            this.bt_ChangeTeam.Size = new System.Drawing.Size(114, 23);
-            this.bt_ChangeTeam.TabIndex = 12;
-            this.bt_ChangeTeam.Text = "Change Team";
-            this.bt_ChangeTeam.UseVisualStyleBackColor = true;
-            this.bt_ChangeTeam.Click += new System.EventHandler(this.bt_ChangeTeam_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 286);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 12);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Start Ep";
             // 
             // fm_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(610, 415);
+            this.ClientSize = new System.Drawing.Size(610, 470);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -243,6 +274,9 @@
         private System.Windows.Forms.Button bt_ChangeTeam;
         private System.Windows.Forms.Button bt_SettingTeam;
         private System.Windows.Forms.TextBox tb_Team;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

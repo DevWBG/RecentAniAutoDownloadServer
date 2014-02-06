@@ -14,20 +14,62 @@ using System.Threading;
 
 namespace RecentAniAutoDownloadServer
 {
+    public struct AniName
+    {
+        public string name;
+        public string Ep;
+    }
+
+
     public partial class fm_main : Form
     {
 
         private bool ThreadStopCheck = false;
+        private List<AniName> Ani;
 
         public fm_main()
         {
             InitializeComponent();
             bt_ChangeTeam.Enabled = false;
             bt_Stop.Enabled = false;
+            AniName AniTemp;
+
+            if (File.Exists("setting.txt"))
+            {
+                StreamReader sr = new StreamReader("setting.txt");
+                while(sr.Peek() >= 0)
+                {
+                    AniTemp.name = sr.ReadLine();
+                    AniTemp.Ep = sr.ReadLine();
+                    Ani.Add(AniTemp);
+                }
+                sr.Close();
+            }
+            else
+            {
+                FileStream fs = new FileStream("setting.txt", FileMode.Create);
+                fs.Close();
+            }
+
+            if(File.Exists("UserList.txt"))
+            {
+                StreamReader sr = new StreamReader("UserList.txt");
+                while(sr.Peek() >= 0)
+                {
+                    list_TweetUser.Items.Add(sr.ReadLine());
+                }
+            }
+            else
+            {
+                FileStream fs = new FileStream("UserList.txt", FileMode.Create);
+                fs.Close();
+            }
         }
 
         private void bt_AniInput_Click(object sender, EventArgs e)
         {
+            AniName AniTemp;
+            AniTemp.name = tb_AniString.Text;
             list_AniString.Items.Add(tb_AniString.Text);
         }
 
@@ -76,29 +118,33 @@ namespace RecentAniAutoDownloadServer
         {
             while(ThreadStopCheck)
             {
-                RssReader Reader = RssReader.CreateAndCache("https://www.tokyotosho.info/rss.php?filter=1,10,8,7", new TimeSpan(2, 0, 0));
-                string sPattern = null;
-                foreach(RssItem item in Reader.Items)
+                RssReader rss = new RssReader();
+                rss.FeedUrl = "https://www.tokyotosho.info/rss.php?filter=1,10,8,7";
+                foreach(RssItem item in rss.Execute())
                 {
-                    //Input item string in sPattern with regex
-                    //Add Team Name
                     foreach(string temp in list_AniString.Items)
                     {
-                        if (System.Text.RegularExpressions.Regex.IsMatch(temp, sPattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                        if(item.Title.Contains("1280x720") || item.Title.Contains("1920x1080"))
                         {
+                            item.Title.Replace("1280x720", "");
+                            item.Title.Replace("1920x1080", "");
+                            if(item.Title.Contains(temp))
+                            {
 
+                            }
                         }
                     }
                 }
+                Thread.Sleep(60000);
             }
+            bt_Refresh.Enabled = true;
         }
 
         private void bt_Stop_Click(object sender, EventArgs e)
         {
             bt_Start.Enabled = true;
             bt_Stop.Enabled = false;
-            bt_Refresh.Enabled = true;
-
+            
             ThreadStopCheck = false;
         }
 
