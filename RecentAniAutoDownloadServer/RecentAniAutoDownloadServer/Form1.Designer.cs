@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tb_Ep = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.bt_ChangeTeam = new System.Windows.Forms.Button();
             this.bt_SettingTeam = new System.Windows.Forms.Button();
             this.tb_Team = new System.Windows.Forms.TextBox();
@@ -44,9 +47,6 @@
             this.list_TweetUser = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.list_AniString = new System.Windows.Forms.ListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +54,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.tb_Ep);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.bt_ChangeTeam);
             this.groupBox1.Controls.Add(this.bt_SettingTeam);
@@ -75,6 +75,31 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Setting";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 286);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 12);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Start Ep";
+            // 
+            // tb_Ep
+            // 
+            this.tb_Ep.Location = new System.Drawing.Point(129, 298);
+            this.tb_Ep.Name = "tb_Ep";
+            this.tb_Ep.Size = new System.Drawing.Size(121, 21);
+            this.tb_Ep.TabIndex = 14;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 240);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 12);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Name";
             // 
             // bt_ChangeTeam
             // 
@@ -214,31 +239,6 @@
             this.list_AniString.Size = new System.Drawing.Size(316, 412);
             this.list_AniString.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 240);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 12);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Name";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(129, 298);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(121, 21);
-            this.textBox1.TabIndex = 14;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 286);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 12);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "Start Ep";
-            // 
             // fm_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -275,7 +275,7 @@
         private System.Windows.Forms.Button bt_SettingTeam;
         private System.Windows.Forms.TextBox tb_Team;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tb_Ep;
         private System.Windows.Forms.Label label1;
     }
 }
