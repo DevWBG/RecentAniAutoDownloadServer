@@ -47,12 +47,14 @@
             this.list_TweetUser = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.list_AniString = new System.Windows.Forms.ListBox();
+            this.bt_Modify = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.bt_Modify);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tb_Ep);
             this.groupBox1.Controls.Add(this.label1);
@@ -130,9 +132,9 @@
             // 
             // bt_AniDelete
             // 
-            this.bt_AniDelete.Location = new System.Drawing.Point(131, 325);
+            this.bt_AniDelete.Location = new System.Drawing.Point(169, 325);
             this.bt_AniDelete.Name = "bt_AniDelete";
-            this.bt_AniDelete.Size = new System.Drawing.Size(114, 23);
+            this.bt_AniDelete.Size = new System.Drawing.Size(76, 23);
             this.bt_AniDelete.TabIndex = 9;
             this.bt_AniDelete.Text = "Ani Delete";
             this.bt_AniDelete.UseVisualStyleBackColor = true;
@@ -142,7 +144,7 @@
             // 
             this.bt_AniInput.Location = new System.Drawing.Point(8, 324);
             this.bt_AniInput.Name = "bt_AniInput";
-            this.bt_AniInput.Size = new System.Drawing.Size(116, 23);
+            this.bt_AniInput.Size = new System.Drawing.Size(73, 23);
             this.bt_AniInput.TabIndex = 8;
             this.bt_AniInput.Text = "Ani Input";
             this.bt_AniInput.UseVisualStyleBackColor = true;
@@ -238,6 +240,17 @@
             this.list_AniString.Name = "list_AniString";
             this.list_AniString.Size = new System.Drawing.Size(316, 412);
             this.list_AniString.TabIndex = 0;
+            this.list_AniString.SelectedValueChanged += new System.EventHandler(this.list_AniString_SelectedValueChanged);
+            // 
+            // bt_Modify
+            // 
+            this.bt_Modify.Location = new System.Drawing.Point(88, 325);
+            this.bt_Modify.Name = "bt_Modify";
+            this.bt_Modify.Size = new System.Drawing.Size(75, 23);
+            this.bt_Modify.TabIndex = 16;
+            this.bt_Modify.Text = "Ani Modify";
+            this.bt_Modify.UseVisualStyleBackColor = true;
+            this.bt_Modify.Click += new System.EventHandler(this.bt_Modify_Click);
             // 
             // fm_main
             // 
@@ -249,6 +262,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "fm_main";
             this.Text = "Recent Ani Auto Download";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.fm_main_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -277,6 +291,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_Ep;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button bt_Modify;
     }
 }
 
