@@ -41,6 +41,7 @@ namespace RecentAniAutoDownloadServer
         private bool ThreadStopCheck = false;
         private bool TorrentCheckThread = false;
         private List<AniName> Ani = new List<AniName>();
+        Thread Pipe;
 
         IToken newtoken = new Token(
                                     "1347431911-h0lbbAFF5LuO9Ew4wHITjj3q9fP4XfghYxW9AhO",
@@ -55,6 +56,7 @@ namespace RecentAniAutoDownloadServer
             bt_Stop.Enabled = false;
             bt_Modify.Enabled = false;
             bt_AniDelete.Enabled = false;
+            TorrentCheckThread = true;
 
             AniName AniTemp;
 
@@ -98,7 +100,7 @@ namespace RecentAniAutoDownloadServer
                 fs.Close();
             }
 
-            Thread Pipe = new Thread(new ThreadStart(pipeconnect));
+            Pipe = new Thread(new ThreadStart(pipeconnect));
             Pipe.Start();
         }
 
@@ -173,65 +175,59 @@ namespace RecentAniAutoDownloadServer
 
         private void SendDownloadQuery()
         {
-            while(ThreadStopCheck)
+            while (ThreadStopCheck)
             {
-                try
+                RssReader rss = new RssReader();
+                rss.FeedUrl = "https://www.tokyotosho.info/rss.php?filter=1,10,7";
+
+                foreach (RssItem item in rss.Execute())
                 {
+                    int i = 0;
 
-                    RssReader rss = new RssReader();
-                    rss.FeedUrl = "https://www.tokyotosho.info/rss.php?filter=1,10,7";
-
-
-                    foreach (RssItem item in rss.Execute())
+                    for (int j = 0; j < Ani.Count; j++)
                     {
-                        int i = 0;
+                        item.Title.Replace('_', ' ');
 
-                        for (int j = 0; j < Ani.Count; j++)
+                        if (item.Title.Contains("1280x720") || item.Title.Contains("1920x1080")
+                            || item.Title.Contains("1080p") || item.Title.Contains("720p"))
                         {
-                            item.Title.Replace('_', ' ');
+                            item.Title.Replace("1280x720", "");
+                            item.Title.Replace("1920x1080", "");
+                            item.Title.Replace("1080p", "");
+                            item.Title.Replace("720p", "");
 
-                            if (item.Title.Contains("1280x720") || item.Title.Contains("1920x1080")
-                                || item.Title.Contains("1080p") || item.Title.Contains("720p"))
+                            if (item.Title.Contains(Ani[j].name) && item.Title.Contains(Ani[j].Ep))
                             {
-                                item.Title.Replace("1280x720", "");
-                                item.Title.Replace("1920x1080", "");
-                                item.Title.Replace("1080p", "");
-                                item.Title.Replace("720p", "");
+                                WebClient webClient = new WebClient();
+                                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(fake2);
+                                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(fake);
+                                webClient.DownloadFileAsync(new Uri(item.Link), item.Title + ".torrent");
 
-                                if (item.Title.Contains(Ani[j].name) && item.Title.Contains(Ani[j].Ep))
-                                {
-                                    WebClient webClient = new WebClient();
-                                    webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(fake2);
-                                    webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(fake);
-                                    webClient.DownloadFileAsync(new Uri(item.Link), item.Title + ".torrent");
-
-                                    int Ep = Convert.ToInt32(Ani[j].Ep);
-                                    ++Ep;
-                                    AniName Variable = Ani[j];
-                                    Variable.Ep = Convert.ToString(Ep);
-                                    Ani[i] = Variable;
-
-                                    list_AniString.SelectedIndex = j;
-                                    list_AniString.SelectedItem = Ani[j].name + " " + Ani[j].Ep;
-
-                                    TweetToPerson(Ani[j], list_TweetUser);
-                                }
-
-                                i++;
+                                int Ep = Convert.ToInt32(Ani[j].Ep);
+                                ++Ep;
+                                AniName Variable = Ani[j];
+                                Variable.Ep = Convert.ToString(Ep);
+                                Ani[i] = Variable;
+                                TweetToPerson(Ani[j], list_TweetUser);
                             }
 
+                            i++;
                         }
+
                     }
                 }
-                catch(Exception e)
+                int timerCheck = 0;
+                while (ThreadStopCheck && timerCheck < 10000)
                 {
-                    StreamWriter sw = new StreamWriter("ErrorLog.txt");
-                    sw.WriteLine(e.ToString());
-                    sw.Close();
+                    Thread.Sleep(1);
+                    timerCheck++;
                 }
-                Thread.Sleep(60000);
             }
-            bt_Refresh.Enabled = true;
+
+            this.Invoke(new MethodInvoker(delegate()
+                {
+                    bt_Refresh.Enabled = true;
+                }));
             Thread.CurrentThread.Abort();
         }
 
@@ -294,6 +290,7 @@ namespace RecentAniAutoDownloadServer
         {
             TorrentCheckThread = true;
             ThreadStopCheck = true;
+            Pipe.Abort();
             StreamWriter sw = new StreamWriter("setting.txt");
             for(int i = 0; i < Ani.Count; i++)
             {
@@ -346,7 +343,7 @@ namespace RecentAniAutoDownloadServer
 
         private void pipeconnect()
         {
-            while (!TorrentCheckThread)
+            while (TorrentCheckThread)
             {
                 System.IO.Pipes.NamedPipeServerStream pipeServer = new System.IO.Pipes.NamedPipeServerStream("TorrentPipe");
                 pipeServer.WaitForConnection();
