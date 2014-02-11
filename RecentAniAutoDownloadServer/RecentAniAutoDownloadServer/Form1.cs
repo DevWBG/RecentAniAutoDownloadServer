@@ -153,16 +153,16 @@ namespace RecentAniAutoDownloadServer
 
         private void SendDownloadQuery()
         {
-            if(ThreadStopCheck)
+            while (ThreadStopCheck)
             {
                 RssReader rss = new RssReader();
                 rss.FeedUrl = "https://www.tokyotosho.info/rss.php?filter=1,10,7";
-                
-                foreach(RssItem item in rss.Execute())
+
+                foreach (RssItem item in rss.Execute())
                 {
                     int i = 0;
 
-                    for (int j = 0; j < Ani.Count; j++ )
+                    for (int j = 0; j < Ani.Count; j++)
                     {
                         item.Title.Replace('_', ' ');
 
@@ -195,17 +195,18 @@ namespace RecentAniAutoDownloadServer
                     }
                 }
                 int timerCheck = 0;
-                while(ThreadStopCheck || timerCheck > 60000)
+                while (ThreadStopCheck && timerCheck < 10000)
                 {
                     Thread.Sleep(1);
                     timerCheck++;
                 }
             }
-            else
-            {
-                bt_Refresh.Enabled = true;
-                Thread.CurrentThread.Abort();
-            }
+
+            this.Invoke(new MethodInvoker(delegate()
+                {
+                    bt_Refresh.Enabled = true;
+                }));
+            Thread.CurrentThread.Abort();
         }
 
         private void fake(object sender, DownloadProgressChangedEventArgs e)
