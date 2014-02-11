@@ -346,17 +346,17 @@ namespace RecentAniAutoDownloadServer
 
         private void pipeconnect()
         {
-            if (!TorrentCheckThread)
+            while (!TorrentCheckThread)
             {
                 System.IO.Pipes.NamedPipeServerStream pipeServer = new System.IO.Pipes.NamedPipeServerStream("TorrentPipe");
                 pipeServer.WaitForConnection();
+                string TorrentName = null;
 
                 for (int i = 0; i < 2; i++)
                 {
                     byte[] buffer = new byte[255];
                     pipeServer.Read(buffer, 0, 255);
                     string request = ASCIIEncoding.ASCII.GetString(buffer);
-                    string TorrentName = null;
                     request = request.Trim('\0');
                     if (i == 1)
                     {
@@ -398,11 +398,7 @@ namespace RecentAniAutoDownloadServer
                 }
                 pipeServer.Close();
             }
-            else
-            {
-                Thread.CurrentThread.Abort();
-            }
-            
+            Thread.CurrentThread.Abort();
         }
 
     }
