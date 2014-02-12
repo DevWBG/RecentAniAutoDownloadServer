@@ -357,7 +357,6 @@ namespace RecentAniAutoDownloadServer
         {
             _TorrentCheckThread = false;
             pipeServer.Dispose();
-
         }
 
         public void pipeconnect(IToken newtoken)
@@ -370,7 +369,6 @@ namespace RecentAniAutoDownloadServer
                 }
                 checkFirstPipe = false;
                 pipeServer.WaitForConnection();
-                pipeServer.Dispose();
                 string TorrentName = null;
 
                 for (int i = 0; i < 2; i++)
