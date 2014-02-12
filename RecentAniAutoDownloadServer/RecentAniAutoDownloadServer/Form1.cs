@@ -41,7 +41,8 @@ namespace RecentAniAutoDownloadServer
         private bool ThreadStopCheck = false;
         private bool TorrentCheckThread = false;
         private List<AniName> Ani = new List<AniName>();
-        Thread Pipe;
+        namedPipe TorrentPipe = new namedPipe();
+        Thread Pipe = null;
 
         IToken newtoken = new Token(
                                     "1347431911-h0lbbAFF5LuO9Ew4wHITjj3q9fP4XfghYxW9AhO",
@@ -100,7 +101,9 @@ namespace RecentAniAutoDownloadServer
                 fs.Close();
             }
 
-            Pipe = new Thread(new ThreadStart(pipeconnect));
+            
+            Pipe = new Thread(() => TorrentPipe.pipeconnect(newtoken));
+            Pipe.IsBackground = true;
             Pipe.Start();
         }
 
@@ -290,7 +293,6 @@ namespace RecentAniAutoDownloadServer
         {
             TorrentCheckThread = true;
             ThreadStopCheck = true;
-            Pipe.Abort();
             StreamWriter sw = new StreamWriter("setting.txt");
             for(int i = 0; i < Ani.Count; i++)
             {
@@ -305,6 +307,7 @@ namespace RecentAniAutoDownloadServer
                 sr.WriteLine(UserID);
             }
             sr.Close();
+            TorrentPipe.pipeshutdown();
         }
 
         private void list_AniString_SelectedValueChanged(object sender, EventArgs e)
@@ -341,12 +344,33 @@ namespace RecentAniAutoDownloadServer
             bt_AniDelete.Enabled = false;
         }
 
-        private void pipeconnect()
+    }
+
+    class namedPipe
+    {
+        private bool _TorrentCheckThread = true;
+        private bool checkFirstPipe = true;
+
+        System.IO.Pipes.NamedPipeServerStream pipeServer = new System.IO.Pipes.NamedPipeServerStream("TorrentPipe");
+
+        public void pipeshutdown()
         {
-            while (TorrentCheckThread)
+            _TorrentCheckThread = false;
+            pipeServer.Dispose();
+
+        }
+
+        public void pipeconnect(IToken newtoken)
+        {
+            while (_TorrentCheckThread)
             {
-                System.IO.Pipes.NamedPipeServerStream pipeServer = new System.IO.Pipes.NamedPipeServerStream("TorrentPipe");
+                if (!checkFirstPipe)
+                {
+                    pipeServer = new System.IO.Pipes.NamedPipeServerStream("TorrentPipe");
+                }
+                checkFirstPipe = false;
                 pipeServer.WaitForConnection();
+                pipeServer.Dispose();
                 string TorrentName = null;
 
                 for (int i = 0; i < 2; i++)
@@ -393,10 +417,9 @@ namespace RecentAniAutoDownloadServer
                         TorrentName = request;
                     }
                 }
-                pipeServer.Close();
+                pipeServer.Dispose();
             }
             Thread.CurrentThread.Abort();
         }
-
     }
 }
